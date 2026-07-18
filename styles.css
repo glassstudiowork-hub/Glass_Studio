@@ -81,28 +81,28 @@ a {
 }
 
 .brand-mark {
-  display: grid;
-  place-items: center;
+  position: relative;
+  display: block;
   flex: 0 0 auto;
-  width: 46px;
-  height: 46px;
-  color: var(--white);
-  background:
-    radial-gradient(circle at 28% 24%, rgba(255, 255, 255, 0.95), transparent 22%),
-    linear-gradient(135deg, rgba(255, 255, 255, 0.34), transparent 42%),
-    linear-gradient(145deg, #9be2e0, #2b666b 54%, #151a1d);
-  border: 1px solid rgba(255, 255, 255, 0.5);
-  border-radius: 10px;
+  width: 54px;
+  height: 54px;
+  overflow: hidden;
+  background: #0c0f11;
+  border: 1px solid rgba(185, 146, 90, 0.42);
+  border-radius: 12px;
   box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.7),
-    0 12px 30px rgba(80, 147, 150, 0.3);
+    inset 0 1px 0 rgba(255, 255, 255, 0.16),
+    0 10px 24px rgba(31, 72, 75, 0.2);
 }
 
 .brand-mark img {
-  width: 36px;
-  height: 36px;
-  object-fit: contain;
-  filter: drop-shadow(0 5px 8px rgba(0, 0, 0, 0.22));
+  position: absolute;
+  top: 46%;
+  left: 50%;
+  width: 148px;
+  height: auto;
+  max-width: none;
+  transform: translate(-50%, -37%);
 }
 
 .brand strong,
