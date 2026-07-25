@@ -558,7 +558,7 @@ a {
 .faq summary::-webkit-details-marker { display: none; }.faq summary span { color: #48888b; font-size: 1.4rem; transition: transform .2s; }.faq details[open] summary span { transform: rotate(45deg); }
 .faq details p { margin: -6px 40px 24px 0; color: var(--muted); }
 
-.big-cta { display: flex; align-items: center; justify-content: space-between; gap: 35px; padding: clamp(55px,8vw,100px) clamp(18px,7vw,100px); color: white; background: linear-gradient(110deg,rgba(12,28,31,.96),rgba(29,86,90,.82)),url('https://media.gettyimages.com/id/108200472/photo/modern-architecture-of-staircases-on-building-facade.jpg?b=1&s=2048x2048&w=0&k=20&c=6a2W9-kwev3UMV-2eABiuV-rJXsZYkNRIUDpaB1AnKc=') center/cover; }
+.big-cta { display: flex; align-items: center; justify-content: space-between; gap: 35px; padding: clamp(55px,8vw,100px) clamp(18px,7vw,100px); color: white; background: linear-gradient(110deg,rgba(12,28,31,.96),rgba(29,86,90,.82)),url('assets/images/Glass%20balcony%20railing.jpeg') center/cover; }
 .big-cta h2 { margin: 0; font-family: Georgia,serif; font-size: clamp(2.4rem,5vw,4.8rem); line-height: 1; }.big-cta p:not(.eyebrow){ color: rgba(255,255,255,.7); }
 .big-cta .hero-actions { flex-shrink: 0; margin: 0; }
 
