@@ -1,0 +1,848 @@
+/* ==========================================================================
+   GLASSSTUDIO - LUXURY ARCHITECTURAL GLASS, DOOR & PARTITION SYSTEM
+   Exact recreation of Grayzo Design Language (https://grayzo.in/)
+   ========================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;0,700;1,400&display=swap');
+
+:root {
+  --primary: #92837c;
+  --primary-dark: #7a6c65;
+  --primary-light: #ab9c95;
+  --dark: #120f2d;
+  --dark-rgb: 18, 15, 45;
+  --gray: #6b6a75;
+  --light-bg: #f8f9fa;
+  --border-color: #dee2e6;
+  --font-heading: 'Baskerville', 'Playfair Display', Georgia, serif;
+  --font-body: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  --font-display: 'Bebas Neue', 'Plus Jakarta Sans', sans-serif;
+}
+
+body {
+  font-family: var(--font-body);
+  color: var(--gray);
+  background-color: #ffffff;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: var(--dark);
+  font-family: var(--font-body);
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+/* ==========================================
+   UTILITY CLASSES (GRAYZO MATCHING)
+   ========================================== */
+.dark_color {
+  color: #120f2d !important;
+}
+
+.gray_color {
+  color: #6b6a75 !important;
+}
+
+.bg_gray {
+  background-color: #f8f9fa !important;
+}
+
+.bg_gray2 {
+  background-color: #f2f2f2 !important;
+}
+
+.border_all {
+  border: 1px solid #ced4da !important;
+}
+
+.fs-40px {
+  font-size: clamp(26px, 4vw, 40px) !important;
+  line-height: 1.25;
+}
+
+.fs-32px {
+  font-size: clamp(22px, 3vw, 32px) !important;
+}
+
+.fs-24px {
+  font-size: 24px !important;
+}
+
+.fs-20px {
+  font-size: 20px !important;
+}
+
+.fs-18px {
+  font-size: 18px !important;
+}
+
+.fs-16px {
+  font-size: 16px !important;
+}
+
+.fw-400 { font-weight: 400 !important; }
+.fw-500 { font-weight: 500 !important; }
+.fw-600 { font-weight: 600 !important; }
+.fw-700 { font-weight: 700 !important; }
+
+.num-font {
+  font-family: var(--font-heading);
+}
+
+.all_btn {
+  background-color: #92837c;
+  border: 1px solid #92837c;
+  border-radius: 4px;
+  color: #fff;
+  font-size: 16px;
+  font-weight: 600;
+  padding: 14px 28px;
+  transition: all 0.3s ease;
+  display: inline-block;
+  text-decoration: none;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.all_btn:hover {
+  background-color: #7a6c65;
+  border-color: #7a6c65;
+  color: #fff;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(146, 131, 124, 0.35);
+}
+
+/* ==========================================
+   HEADER & NAVBAR (GRAYZO STICKY NAVBAR)
+   ========================================== */
+.site-navbar {
+  background: #92837c !important;
+  min-height: 72px;
+  transition: all 0.35s ease;
+  z-index: 1040;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.site-navbar.navbar-scrolled {
+  background: rgba(146, 131, 124, 0.98) !important;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15) !important;
+  min-height: 64px;
+}
+
+.site-navbar .navbar-brand {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+}
+
+.site-navbar .brand-logo-img {
+  height: 48px;
+  width: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.15));
+}
+
+.site-navbar .brand-text {
+  font-family: var(--font-display);
+  font-size: 28px;
+  letter-spacing: 1px;
+  color: #ffffff;
+  margin-left: 10px;
+  line-height: 1;
+}
+
+.site-navbar .brand-text small {
+  display: block;
+  font-size: 10px;
+  font-family: var(--font-body);
+  letter-spacing: 3px;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.site-navbar .nav-link {
+  color: #ffffff !important;
+  font-size: 14.5px;
+  font-weight: 600;
+  padding: 10px 16px !important;
+  position: relative;
+  transition: all 0.25s ease;
+}
+
+.site-navbar .nav-link:hover,
+.site-navbar .nav-link.active {
+  color: #ffffff !important;
+  background-color: rgba(255, 255, 255, 0.12);
+  border-radius: 4px;
+}
+
+/* Dropdown Menus */
+.site-navbar .dropdown-menu {
+  background-color: #ffffff;
+  border: 1px solid rgba(0,0,0,0.08);
+  border-radius: 8px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+  padding: 8px 0;
+  min-width: 230px;
+  margin-top: 8px;
+  animation: fadeInDown 0.25s ease forwards;
+}
+
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.site-navbar .dropdown-item {
+  color: var(--dark);
+  font-size: 13.5px;
+  font-weight: 600;
+  padding: 9px 20px;
+  letter-spacing: 0.5px;
+  transition: all 0.2s ease;
+}
+
+.site-navbar .dropdown-item:hover,
+.site-navbar .dropdown-item:focus {
+  background-color: #92837c;
+  color: #ffffff !important;
+  padding-left: 24px;
+}
+
+/* Header Social Media Buttons */
+.nav-social-buttons .btn-social {
+  width: 38px;
+  height: 38px;
+  border-radius: 6px;
+  background-color: #ffffff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 6px;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.nav-social-buttons .btn-social:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+}
+
+.nav-social-buttons .btn-social.fb i { color: #1877F2; font-size: 18px; }
+.nav-social-buttons .btn-social.insta i { color: #d250db; font-size: 18px; }
+.nav-social-buttons .btn-social.twitter i { color: #000000; font-size: 18px; }
+.nav-social-buttons .btn-social.youtube i { color: #FF0000; font-size: 18px; }
+.nav-social-buttons .btn-social.phone i { color: #25D366; font-size: 18px; }
+
+/* ==========================================
+   HERO CAROUSEL / SLIDER (GRAYZO BANNER)
+   ========================================== */
+.banner {
+  width: 100%;
+  position: relative;
+  background: #f2f2f2;
+}
+
+.banner .carousel-inner {
+  max-height: 680px;
+}
+
+.banner .carousel-item {
+  aspect-ratio: 1800 / 700;
+  background: #120f2d;
+  position: relative;
+}
+
+.banner .carousel-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  filter: brightness(0.92);
+}
+
+.banner .carousel-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(180deg, rgba(18, 15, 45, 0.3) 0%, rgba(18, 15, 45, 0.65) 100%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 20px;
+}
+
+.banner .carousel-overlay h1 {
+  color: #ffffff;
+  font-family: var(--font-display);
+  font-size: clamp(32px, 5.5vw, 68px);
+  letter-spacing: 2px;
+  line-height: 1.1;
+  text-transform: uppercase;
+  text-shadow: 0 4px 15px rgba(0,0,0,0.5);
+  max-width: 1000px;
+  margin-bottom: 20px;
+}
+
+.banner .carousel-overlay p {
+  color: rgba(255, 255, 255, 0.95);
+  font-size: clamp(16px, 1.8vw, 22px);
+  font-weight: 400;
+  max-width: 800px;
+  margin-bottom: 30px;
+  text-shadow: 0 2px 8px rgba(0,0,0,0.6);
+}
+
+.banner .carousel-control-prev,
+.banner .carousel-control-next {
+  width: 55px;
+  height: 55px;
+  background-color: rgba(146, 131, 124, 0.85);
+  border-radius: 50%;
+  top: 50%;
+  transform: translateY(-50%);
+  opacity: 0.85;
+  transition: all 0.3s ease;
+  margin: 0 20px;
+}
+
+.banner .carousel-control-prev:hover,
+.banner .carousel-control-next:hover {
+  background-color: #92837c;
+  opacity: 1;
+  transform: translateY(-50%) scale(1.1);
+}
+
+/* ==========================================
+   INTRO / ABOUT BRIEF (QUALITY GLASS & DOORS)
+   ========================================== */
+.homeAbout {
+  padding-top: 70px;
+  padding-bottom: 50px;
+}
+
+.homeAbout h1 {
+  color: var(--dark);
+  font-family: var(--font-body);
+  letter-spacing: 0.5px;
+}
+
+.homeAbout p {
+  color: #6b6a75;
+  font-size: 18px;
+  line-height: 1.8;
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+/* ==========================================
+   OUR LATEST COLLECTION (CATEGORY GRID)
+   ========================================== */
+.collection-header-badge {
+  background-color: #92837c;
+  color: #ffffff;
+  padding: 16px 24px;
+  margin-bottom: 45px;
+  box-shadow: 0 4px 15px rgba(146, 131, 124, 0.2);
+}
+
+.collection-header-badge h2 {
+  color: #ffffff;
+  font-size: 28px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  margin: 0;
+  text-transform: uppercase;
+}
+
+.services_box {
+  display: block;
+  position: relative;
+  text-decoration: none;
+  transition: all 0.35s ease;
+  background: #ffffff;
+  padding-bottom: 10px;
+}
+
+.service-img-wrapper {
+  position: relative;
+  overflow: hidden;
+  border-radius: 4px;
+  aspect-ratio: 4 / 3.2;
+  background-color: #e9ecef;
+}
+
+.service-img-wrapper img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.services_box:hover .service-img-wrapper img {
+  transform: scale(1.06);
+}
+
+/* Hover Pill Button */
+.services_box .service-hover-btn {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 190px;
+  padding: 14px 20px;
+  background: rgba(255, 255, 255, 0.95);
+  border: 2px solid #120f2d;
+  border-radius: 50px;
+  color: #120f2d;
+  font-size: 15px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: auto;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
+  transition: opacity 0.3s ease, transform 0.3s ease, background-color 0.2s ease, color 0.2s ease;
+  z-index: 5;
+  cursor: pointer;
+}
+
+.services_box:hover .service-hover-btn {
+  opacity: 1 !important;
+}
+
+.services_box .service-hover-btn:hover {
+  background-color: #120f2d;
+  color: #ffffff;
+}
+
+.services_box h3 {
+  font-family: var(--font-heading);
+  font-size: 19px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  color: #120f2d;
+  text-transform: uppercase;
+  margin-top: 18px;
+  margin-bottom: 8px;
+}
+
+.services_box hr {
+  width: 60px;
+  margin: 10px auto 0;
+  border-top: 2px solid #92837c;
+  opacity: 0.8;
+  transition: width 0.3s ease;
+}
+
+.services_box:hover hr {
+  width: 100px;
+  border-top-color: #120f2d;
+}
+
+/* ==========================================
+   CONTINUOUS SCROLLING PRODUCT RANGE GALLERY
+   ========================================== */
+.scrolling-gallery-section {
+  padding: 60px 0;
+  background-color: #fbfbfb;
+  overflow: hidden;
+}
+
+.scrolling-gallery {
+  overflow: hidden;
+  position: relative;
+  width: 100%;
+  padding: 15px 0;
+}
+
+.scrolling-track {
+  display: flex;
+  width: max-content;
+  animation: scroll-left 32s linear infinite;
+}
+
+.scrolling-gallery:hover .scrolling-track {
+  animation-play-state: paused;
+}
+
+@keyframes scroll-left {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.scrolling-item {
+  flex-shrink: 0;
+  padding: 0 12px;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.scrolling-item img {
+  height: 297px;
+  width: 243px;
+  object-fit: cover;
+  border-radius: 8px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+}
+
+.scrolling-item:hover img {
+  transform: translateY(-6px);
+  box-shadow: 0 12px 25px rgba(0, 0, 0, 0.18);
+}
+
+/* ==========================================
+   QUICK QUOTE LEAD POPUP MODAL (GRAYZO STYLE)
+   ========================================== */
+.custom_popup {
+  border-radius: 12px;
+  padding: 40px 36px;
+  background: #ffffff;
+  position: relative;
+}
+
+.custom_popup .btn-close {
+  position: absolute;
+  top: 18px;
+  right: 18px;
+  z-index: 10;
+  opacity: 0.7;
+}
+
+.custom_popup .btn-close:hover {
+  opacity: 1;
+}
+
+.custom_popup_body h5 {
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--dark);
+}
+
+.custom_popup_body h6 {
+  font-size: 17px;
+  font-weight: 600;
+  color: var(--dark);
+}
+
+/* Multi-select Dropdown */
+.popup_dropdown_main .dropdown-toggle {
+  background-color: #f2f2f2;
+  border: 1px solid #ced4da;
+  border-radius: 4px;
+  height: 54px;
+  font-size: 15px;
+  color: #495057;
+  padding: 12px 18px;
+}
+
+.popup_dropdown_main .dropdown-toggle:after {
+  margin-left: auto;
+}
+
+.popup_dropdown_main .dropdown-menu {
+  width: 100%;
+  max-height: 260px;
+  overflow-y: auto;
+  border-radius: 6px;
+  border: 1px solid #dee2e6;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+  padding: 10px;
+  z-index: 1060;
+}
+
+.popup_dropdown_main .form-check {
+  padding: 6px 10px 6px 30px;
+  border-radius: 4px;
+  transition: background 0.15s ease;
+  cursor: pointer;
+}
+
+.popup_dropdown_main .form-check:hover {
+  background-color: #f8f9fa;
+}
+
+.popup_dropdown_main .form-check-label {
+  color: #495057 !important;
+  font-size: 14.5px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.popup_dropdown_main .form-check-input:checked {
+  background-color: #92837c;
+  border-color: #92837c;
+}
+
+.quaryFormSubmit .form-control {
+  height: 54px;
+  background-color: #ffffff;
+  border: 1px solid #ced4da;
+  border-radius: 4px;
+  font-size: 15px;
+  color: #212529;
+}
+
+.quaryFormSubmit textarea.form-control {
+  height: auto;
+}
+
+.quaryFormSubmit .form-control:focus {
+  border-color: #92837c;
+  box-shadow: 0 0 0 0.25rem rgba(146, 131, 124, 0.25);
+}
+
+/* ==========================================
+   FLOATING WHATSAPP BUTTON
+   ========================================== */
+.whatsapp-float-btn {
+  position: fixed;
+  bottom: 40px;
+  right: 28px;
+  background-color: #25D366;
+  color: #ffffff !important;
+  width: 58px;
+  height: 58px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 30px;
+  z-index: 1050;
+  box-shadow: 0 4px 16px rgba(37, 211, 102, 0.45);
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  text-decoration: none;
+}
+
+.whatsapp-float-btn:hover {
+  transform: scale(1.12) translateY(-3px);
+  box-shadow: 0 8px 24px rgba(37, 211, 102, 0.6);
+  color: #ffffff !important;
+}
+
+/* Floating Call Button */
+.call-float-btn {
+  position: fixed;
+  bottom: 110px;
+  right: 28px;
+  background-color: #92837c;
+  color: #ffffff !important;
+  width: 58px;
+  height: 58px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 26px;
+  z-index: 1050;
+  box-shadow: 0 4px 16px rgba(146, 131, 124, 0.45);
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  text-decoration: none;
+}
+
+.call-float-btn:hover {
+  transform: scale(1.12) translateY(-3px);
+  box-shadow: 0 8px 24px rgba(146, 131, 124, 0.6);
+  color: #ffffff !important;
+}
+
+/* ==========================================
+   FOOTER (GRAYZO DOUBLE-TIER FOOTER)
+   ========================================== */
+.footer_main {
+  background-color: #92837c;
+  color: #ffffff;
+  margin-top: 60px;
+}
+
+.footer_top {
+  background-color: #92837c !important;
+  padding: 60px 0 40px;
+}
+
+.footer_top h3 {
+  font-family: var(--font-body);
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  color: #ffffff;
+  margin-bottom: 20px;
+}
+
+.footer_top p,
+.footer_top span {
+  color: #ffffff;
+  font-size: 15.5px;
+  line-height: 1.8;
+}
+
+.footer_top a {
+  color: #ffffff;
+  text-decoration: none;
+  transition: opacity 0.2s ease;
+}
+
+.footer_top a:hover {
+  opacity: 0.85;
+}
+
+.footer_bottom {
+  background-color: #857670 !important;
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+  padding: 20px 0;
+}
+
+.footer_bottom p {
+  color: #ffffff;
+  font-size: 14px;
+  margin: 0;
+}
+
+.footer_bottom a {
+  color: #ffffff;
+  font-size: 14px;
+  text-decoration: none;
+  transition: opacity 0.2s ease;
+}
+
+.footer_bottom a:hover {
+  opacity: 0.8;
+  text-decoration: underline;
+}
+
+/* ==========================================
+   INTERNAL PAGES (ABOUT, CONTACT, PRODUCTS)
+   ========================================== */
+.page-hero-header {
+  background: linear-gradient(rgba(18, 15, 45, 0.65), rgba(18, 15, 45, 0.75)), url('https://grayapi.grayzo.in/AdminArea/code/image/1758964228.webp?w=1200') center center no-repeat;
+  background-size: cover;
+  padding: 90px 0 70px;
+  text-align: center;
+  color: #ffffff;
+  margin-bottom: 50px;
+}
+
+.page-hero-header h1 {
+  font-family: var(--font-display);
+  font-size: clamp(34px, 5vw, 62px);
+  color: #ffffff;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+.page-hero-header p {
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 18px;
+  max-width: 700px;
+  margin: 10px auto 0;
+}
+
+.feature-pillar-box {
+  background: #ffffff;
+  border: 1px solid #e9ecef;
+  border-radius: 8px;
+  padding: 35px 25px;
+  text-align: center;
+  height: 100%;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.04);
+}
+
+.feature-pillar-box:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 30px rgba(146, 131, 124, 0.18);
+  border-color: #92837c;
+}
+
+.feature-pillar-box .pillar-icon {
+  width: 70px;
+  height: 70px;
+  background: rgba(146, 131, 124, 0.12);
+  color: #92837c;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28px;
+  margin: 0 auto 20px;
+}
+
+.contact-card-box {
+  background: #ffffff;
+  border-radius: 8px;
+  border: 1px solid #e9ecef;
+  padding: 30px;
+  height: 100%;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.04);
+  transition: all 0.3s ease;
+}
+
+.contact-card-box:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+}
+
+.contact-card-box .icon-wrap {
+  width: 54px;
+  height: 54px;
+  background-color: #92837c;
+  color: #ffffff;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  margin-bottom: 20px;
+}
+
+/* Responsive fixes */
+@media (max-width: 991.98px) {
+  .site-navbar {
+    padding: 12px 16px !important;
+  }
+  .site-navbar .navbar-collapse {
+    background: #92837c;
+    padding: 20px;
+    border-radius: 8px;
+    margin-top: 15px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+  }
+  .nav-social-buttons {
+    margin-top: 15px;
+    padding-top: 15px;
+    border-top: 1px solid rgba(255,255,255,0.2);
+  }
+  .footer_main .section1 {
+    order: 1;
+  }
+  .footer_main .section2 {
+    order: 2;
+    text-align: start !important;
+    margin-top: 20px;
+  }
+}
+
