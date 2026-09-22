@@ -6,11 +6,11 @@
 @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;0,700;1,400&display=swap');
 
 :root {
-  --primary: #92837c;
-  --primary-dark: #7a6c65;
-  --primary-light: #ab9c95;
-  --dark: #120f2d;
-  --dark-rgb: 18, 15, 45;
+  --primary: #276b91;
+  --primary-dark: #1b4f6d;
+  --primary-light: #4ea2cf;
+  --dark: #17222c;
+  --dark-rgb: 23, 34, 44;
   --gray: #6b6a75;
   --light-bg: #f8f9fa;
   --border-color: #dee2e6;
@@ -39,7 +39,7 @@ h1, h2, h3, h4, h5, h6 {
    UTILITY CLASSES (GRAYZO MATCHING)
    ========================================== */
 .dark_color {
-  color: #120f2d !important;
+  color: #17222c !important;
 }
 
 .gray_color {
@@ -93,8 +93,8 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .all_btn {
-  background-color: #92837c;
-  border: 1px solid #92837c;
+  background-color: #276b91;
+  border: 1px solid #276b91;
   border-radius: 4px;
   color: #fff;
   font-size: 16px;
@@ -109,18 +109,19 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .all_btn:hover {
-  background-color: #7a6c65;
-  border-color: #7a6c65;
+  background-color: #1b4f6d;
+  border-color: #1b4f6d;
   color: #fff;
   transform: translateY(-2px);
-  box-shadow: 0 6px 18px rgba(146, 131, 124, 0.35);
+  box-shadow: 0 6px 18px rgba(39, 107, 145, 0.4);
 }
 
 /* ==========================================
-   HEADER & NAVBAR (GRAYZO STICKY NAVBAR)
+   HEADER & NAVBAR (GLASSSTUDIO LOGO THEMED)
    ========================================== */
 .site-navbar {
-  background: #92837c !important;
+  background: linear-gradient(135deg, #17222c 0%, #205575 55%, #276b91 100%) !important;
+  border-bottom: 2px solid rgba(78, 162, 207, 0.4);
   min-height: 72px;
   transition: all 0.35s ease;
   z-index: 1040;
@@ -129,9 +130,10 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .site-navbar.navbar-scrolled {
-  background: rgba(146, 131, 124, 0.98) !important;
+  background: rgba(23, 34, 44, 0.98) !important;
   backdrop-filter: blur(10px);
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15) !important;
+  border-bottom: 2px solid #276b91;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25) !important;
   min-height: 64px;
 }
 
@@ -145,6 +147,10 @@ h1, h2, h3, h4, h5, h6 {
   height: 48px;
   width: auto;
   object-fit: contain;
+  background: #ffffff;
+  padding: 4px 10px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.18);
   filter: drop-shadow(0 2px 4px rgba(0,0,0,0.15));
 }
 
@@ -215,7 +221,7 @@ h1, h2, h3, h4, h5, h6 {
 
 .site-navbar .dropdown-item:hover,
 .site-navbar .dropdown-item:focus {
-  background-color: #92837c;
+  background-color: #276b91;
   color: #ffffff !important;
   padding-left: 24px;
 }
@@ -247,7 +253,7 @@ h1, h2, h3, h4, h5, h6 {
 .nav-social-buttons .btn-social.phone i { color: #25D366; font-size: 18px; }
 
 /* ==========================================
-   HERO CAROUSEL / SLIDER (GRAYZO BANNER)
+   HERO CAROUSEL / SLIDER (GLASSSTUDIO LOGO THEMED)
    ========================================== */
 .banner {
   width: 100%;
@@ -261,7 +267,7 @@ h1, h2, h3, h4, h5, h6 {
 
 .banner .carousel-item {
   aspect-ratio: 1800 / 700;
-  background: #120f2d;
+  background: #17222c;
   position: relative;
 }
 
@@ -279,7 +285,7 @@ h1, h2, h3, h4, h5, h6 {
   left: 0;
   right: 0;
   bottom: 0;
-  background: linear-gradient(180deg, rgba(18, 15, 45, 0.3) 0%, rgba(18, 15, 45, 0.65) 100%);
+  background: linear-gradient(180deg, rgba(23, 34, 44, 0.35) 0%, rgba(23, 34, 44, 0.72) 100%);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -313,20 +319,40 @@ h1, h2, h3, h4, h5, h6 {
 .banner .carousel-control-next {
   width: 55px;
   height: 55px;
-  background-color: rgba(146, 131, 124, 0.85);
+  background-color: rgba(39, 107, 145, 0.85);
   border-radius: 50%;
   top: 50%;
   transform: translateY(-50%);
-  opacity: 0.85;
+  opacity: 0.9;
   transition: all 0.3s ease;
   margin: 0 20px;
+  border: 2px solid rgba(255, 255, 255, 0.4);
 }
 
 .banner .carousel-control-prev:hover,
 .banner .carousel-control-next:hover {
-  background-color: #92837c;
+  background-color: #1b4f6d;
   opacity: 1;
   transform: translateY(-50%) scale(1.1);
+  border-color: #ffffff;
+  box-shadow: 0 4px 16px rgba(39, 107, 145, 0.5);
+}
+
+.banner .carousel-indicators [data-bs-target] {
+  background-color: rgba(255, 255, 255, 0.6);
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  margin: 0 6px;
+  border: 1px solid rgba(23, 34, 44, 0.3);
+  transition: all 0.3s ease;
+}
+
+.banner .carousel-indicators .active {
+  background-color: #276b91 !important;
+  width: 28px;
+  border-radius: 6px;
+  box-shadow: 0 2px 8px rgba(39, 107, 145, 0.6);
 }
 
 /* ==========================================
@@ -355,11 +381,11 @@ h1, h2, h3, h4, h5, h6 {
    OUR LATEST COLLECTION (CATEGORY GRID)
    ========================================== */
 .collection-header-badge {
-  background-color: #92837c;
+  background-color: #276b91;
   color: #ffffff;
   padding: 16px 24px;
   margin-bottom: 45px;
-  box-shadow: 0 4px 15px rgba(146, 131, 124, 0.2);
+  box-shadow: 0 4px 15px rgba(39, 107, 145, 0.25);
 }
 
 .collection-header-badge h2 {
@@ -407,10 +433,10 @@ h1, h2, h3, h4, h5, h6 {
   transform: translate(-50%, -50%);
   width: 190px;
   padding: 14px 20px;
-  background: rgba(255, 255, 255, 0.95);
-  border: 2px solid #120f2d;
+  background: rgba(255, 255, 255, 0.96);
+  border: 2px solid #276b91;
   border-radius: 50px;
-  color: #120f2d;
+  color: #17222c;
   font-size: 15px;
   font-weight: 700;
   text-transform: uppercase;
@@ -431,8 +457,9 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .services_box .service-hover-btn:hover {
-  background-color: #120f2d;
+  background-color: #276b91;
   color: #ffffff;
+  border-color: #276b91;
 }
 
 .services_box h3 {
@@ -440,7 +467,7 @@ h1, h2, h3, h4, h5, h6 {
   font-size: 19px;
   font-weight: 700;
   letter-spacing: 0.5px;
-  color: #120f2d;
+  color: #17222c;
   text-transform: uppercase;
   margin-top: 18px;
   margin-bottom: 8px;
@@ -449,14 +476,14 @@ h1, h2, h3, h4, h5, h6 {
 .services_box hr {
   width: 60px;
   margin: 10px auto 0;
-  border-top: 2px solid #92837c;
+  border-top: 2px solid #276b91;
   opacity: 0.8;
   transition: width 0.3s ease;
 }
 
 .services_box:hover hr {
   width: 100px;
-  border-top-color: #120f2d;
+  border-top-color: #17222c;
 }
 
 /* ==========================================
@@ -594,8 +621,8 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .popup_dropdown_main .form-check-input:checked {
-  background-color: #92837c;
-  border-color: #92837c;
+  background-color: #276b91;
+  border-color: #276b91;
 }
 
 .quaryFormSubmit .form-control {
@@ -612,8 +639,8 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .quaryFormSubmit .form-control:focus {
-  border-color: #92837c;
-  box-shadow: 0 0 0 0.25rem rgba(146, 131, 124, 0.25);
+  border-color: #276b91;
+  box-shadow: 0 0 0 0.25rem rgba(39, 107, 145, 0.25);
 }
 
 /* ==========================================
@@ -649,7 +676,7 @@ h1, h2, h3, h4, h5, h6 {
   position: fixed;
   bottom: 110px;
   right: 28px;
-  background-color: #92837c;
+  background-color: #276b91;
   color: #ffffff !important;
   width: 58px;
   height: 58px;
@@ -659,28 +686,30 @@ h1, h2, h3, h4, h5, h6 {
   justify-content: center;
   font-size: 26px;
   z-index: 1050;
-  box-shadow: 0 4px 16px rgba(146, 131, 124, 0.45);
+  box-shadow: 0 4px 16px rgba(39, 107, 145, 0.45);
   transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   text-decoration: none;
 }
 
 .call-float-btn:hover {
   transform: scale(1.12) translateY(-3px);
-  box-shadow: 0 8px 24px rgba(146, 131, 124, 0.6);
+  box-shadow: 0 8px 24px rgba(39, 107, 145, 0.65);
+  background-color: #1b4f6d;
   color: #ffffff !important;
 }
 
 /* ==========================================
-   FOOTER (GRAYZO DOUBLE-TIER FOOTER)
+   FOOTER (GLASSSTUDIO LOGO THEMED)
    ========================================== */
 .footer_main {
-  background-color: #92837c;
+  background-color: #17222c;
   color: #ffffff;
   margin-top: 60px;
+  border-top: 4px solid #276b91;
 }
 
 .footer_top {
-  background-color: #92837c !important;
+  background-color: #17222c !important;
   padding: 60px 0 40px;
 }
 
@@ -695,7 +724,7 @@ h1, h2, h3, h4, h5, h6 {
 
 .footer_top p,
 .footer_top span {
-  color: #ffffff;
+  color: rgba(255, 255, 255, 0.9);
   font-size: 15.5px;
   line-height: 1.8;
 }
@@ -703,34 +732,35 @@ h1, h2, h3, h4, h5, h6 {
 .footer_top a {
   color: #ffffff;
   text-decoration: none;
-  transition: opacity 0.2s ease;
+  transition: color 0.2s ease;
 }
 
 .footer_top a:hover {
-  opacity: 0.85;
+  color: #4ea2cf;
+  opacity: 1;
 }
 
 .footer_bottom {
-  background-color: #857670 !important;
-  border-top: 1px solid rgba(255, 255, 255, 0.12);
+  background-color: #101820 !important;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
   padding: 20px 0;
 }
 
 .footer_bottom p {
-  color: #ffffff;
+  color: rgba(255, 255, 255, 0.8);
   font-size: 14px;
   margin: 0;
 }
 
 .footer_bottom a {
-  color: #ffffff;
+  color: #4ea2cf;
   font-size: 14px;
   text-decoration: none;
   transition: opacity 0.2s ease;
 }
 
 .footer_bottom a:hover {
-  opacity: 0.8;
+  opacity: 0.85;
   text-decoration: underline;
 }
 
@@ -738,7 +768,7 @@ h1, h2, h3, h4, h5, h6 {
    INTERNAL PAGES (ABOUT, CONTACT, PRODUCTS)
    ========================================== */
 .page-hero-header {
-  background: linear-gradient(rgba(18, 15, 45, 0.65), rgba(18, 15, 45, 0.75)), url('https://grayapi.grayzo.in/AdminArea/code/image/1758964228.webp?w=1200') center center no-repeat;
+  background: linear-gradient(rgba(23, 34, 44, 0.72), rgba(23, 34, 44, 0.85)), url('https://grayapi.grayzo.in/AdminArea/code/image/1758964228.webp?w=1200') center center no-repeat;
   background-size: cover;
   padding: 90px 0 70px;
   text-align: center;
@@ -774,15 +804,15 @@ h1, h2, h3, h4, h5, h6 {
 
 .feature-pillar-box:hover {
   transform: translateY(-8px);
-  box-shadow: 0 12px 30px rgba(146, 131, 124, 0.18);
-  border-color: #92837c;
+  box-shadow: 0 12px 30px rgba(39, 107, 145, 0.2);
+  border-color: #276b91;
 }
 
 .feature-pillar-box .pillar-icon {
   width: 70px;
   height: 70px;
-  background: rgba(146, 131, 124, 0.12);
-  color: #92837c;
+  background: rgba(39, 107, 145, 0.12);
+  color: #276b91;
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -809,7 +839,7 @@ h1, h2, h3, h4, h5, h6 {
 .contact-card-box .icon-wrap {
   width: 54px;
   height: 54px;
-  background-color: #92837c;
+  background-color: #276b91;
   color: #ffffff;
   border-radius: 50%;
   display: flex;
@@ -825,11 +855,12 @@ h1, h2, h3, h4, h5, h6 {
     padding: 12px 16px !important;
   }
   .site-navbar .navbar-collapse {
-    background: #92837c;
+    background: #17222c;
+    border: 1px solid rgba(78, 162, 207, 0.3);
     padding: 20px;
     border-radius: 8px;
     margin-top: 15px;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.25);
   }
   .nav-social-buttons {
     margin-top: 15px;
@@ -847,7 +878,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 /* ==========================================
-   LOCAL SEO HUBS & FAQ ACCORDION (GRAYZO STYLED)
+   LOCAL SEO HUBS & FAQ ACCORDION (GLASSSTUDIO STYLED)
    ========================================== */
 .local-hub-card {
   background: #ffffff;
@@ -865,16 +896,16 @@ h1, h2, h3, h4, h5, h6 {
 
 .local-hub-card:hover {
   transform: translateY(-6px);
-  border-color: #92837c;
-  box-shadow: 0 14px 32px rgba(146, 131, 124, 0.2);
+  border-color: #276b91;
+  box-shadow: 0 14px 32px rgba(39, 107, 145, 0.2);
 }
 
 .local-hub-card .hub-badge {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  background: rgba(146, 131, 124, 0.12);
-  color: #92837c;
+  background: rgba(39, 107, 145, 0.12);
+  color: #276b91;
   font-size: 13px;
   font-weight: 700;
   text-transform: uppercase;
@@ -888,7 +919,7 @@ h1, h2, h3, h4, h5, h6 {
 .local-hub-card .hub-title {
   font-size: 20px;
   font-weight: 700;
-  color: #120f2d;
+  color: #17222c;
   margin-bottom: 8px;
 }
 
@@ -918,14 +949,14 @@ h1, h2, h3, h4, h5, h6 {
   content: "✓";
   position: absolute;
   left: 0;
-  color: #92837c;
+  color: #276b91;
   font-weight: bold;
 }
 
 .local-hub-card .hub-btn {
   background: #f8f9fa;
   border: 1px solid #ced4da;
-  color: #120f2d;
+  color: #17222c;
   font-weight: 600;
   font-size: 13.5px;
   padding: 9px 18px;
@@ -940,12 +971,12 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .local-hub-card .hub-btn:hover {
-  background: #92837c;
+  background: #276b91;
   color: #ffffff;
-  border-color: #92837c;
+  border-color: #276b91;
 }
 
-/* Accordion Grayzo */
+/* Accordion GlassStudio */
 .accordion-grayzo .accordion-item {
   border: 1px solid #e9ecef;
   border-radius: 8px !important;
@@ -957,21 +988,21 @@ h1, h2, h3, h4, h5, h6 {
 .accordion-grayzo .accordion-button {
   font-weight: 600;
   font-size: 16.5px;
-  color: #120f2d;
+  color: #17222c;
   padding: 18px 24px;
   background-color: #ffffff;
   box-shadow: none;
 }
 
 .accordion-grayzo .accordion-button:not(.collapsed) {
-  background-color: rgba(146, 131, 124, 0.08);
-  color: #92837c;
+  background-color: rgba(39, 107, 145, 0.08);
+  color: #276b91;
   font-weight: 700;
 }
 
 .accordion-grayzo .accordion-button:focus {
   box-shadow: none;
-  border-color: rgba(146, 131, 124, 0.3);
+  border-color: rgba(39, 107, 145, 0.3);
 }
 
 .accordion-grayzo .accordion-body {
@@ -997,9 +1028,9 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .seo-tag-pill:hover {
-  background: #92837c;
+  background: #276b91;
   color: #ffffff;
-  border-color: #92837c;
+  border-color: #276b91;
 }
 
 /* ==========================================
@@ -1022,7 +1053,7 @@ h1, h2, h3, h4, h5, h6 {
 
 .search-nav-btn:hover {
   background: #ffffff;
-  color: #120f2d !important;
+  color: #17222c !important;
   border-color: #ffffff;
   transform: translateY(-1px);
 }
@@ -1047,7 +1078,7 @@ h1, h2, h3, h4, h5, h6 {
   background: transparent;
   font-size: 18px;
   font-weight: 600;
-  color: #120f2d;
+  color: #17222c;
   outline: none;
   padding-left: 36px;
 }
@@ -1058,7 +1089,7 @@ h1, h2, h3, h4, h5, h6 {
   top: 50%;
   transform: translateY(-50%);
   font-size: 20px;
-  color: #92837c;
+  color: #276b91;
 }
 
 .search-result-item {
@@ -1081,8 +1112,8 @@ h1, h2, h3, h4, h5, h6 {
   letter-spacing: 0.5px;
   padding: 3px 8px;
   border-radius: 12px;
-  background: rgba(146, 131, 124, 0.15);
-  color: #92837c;
+  background: rgba(39, 107, 145, 0.15);
+  color: #276b91;
 }
 
 .search-quick-tag {
@@ -1100,9 +1131,9 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .search-quick-tag:hover {
-  background: #92837c;
+  background: #276b91;
   color: #ffffff;
-  border-color: #92837c;
+  border-color: #276b91;
 }
 
 

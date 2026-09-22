@@ -26,10 +26,10 @@
             overflow: hidden;
           }
           .header {
-            background-color: #92837c;
+            background-color: #276b91;
             color: #ffffff;
             padding: 30px;
-            border-bottom: 3px solid #7a6c65;
+            border-bottom: 3px solid #1b4f6d;
           }
           .header h1 {
             margin: 0 0 10px 0;
@@ -45,8 +45,8 @@
             padding: 25px 30px;
           }
           .stats {
-            background-color: #f1edea;
-            border-left: 4px solid #92837c;
+            background-color: #e8f1f5;
+            border-left: 4px solid #276b91;
             padding: 12px 18px;
             margin-bottom: 25px;
             font-size: 14px;
@@ -60,7 +60,7 @@
           }
           th {
             background-color: #f4f4f6;
-            color: #120f2d;
+            color: #17222c;
             text-align: left;
             padding: 12px 15px;
             font-weight: 600;
@@ -71,16 +71,16 @@
             border-bottom: 1px solid #eeeeee;
           }
           tr:hover td {
-            background-color: #faf9f8;
+            background-color: #f0f7fa;
           }
           a {
-            color: #92837c;
+            color: #276b91;
             text-decoration: none;
             word-break: break-all;
             font-weight: 500;
           }
           a:hover {
-            color: #120f2d;
+            color: #17222c;
             text-decoration: underline;
           }
           .priority-badge {
