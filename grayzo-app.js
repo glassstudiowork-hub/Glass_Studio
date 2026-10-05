@@ -397,5 +397,182 @@ document.addEventListener('DOMContentLoaded', () => {
       searchInput.focus();
     }
   };
+
+  // ==========================================
+  // 6. Interactive Glass Cost Calculator Logic
+  // ==========================================
+  const calcState = {
+    type: 'partition',
+    typeName: 'Office Glass Partition',
+    area: 120,
+    thickness: '10mm'
+  };
+
+  const CALC_DATA = {
+    partition: {
+      name: 'Office Glass Partition / Cabin',
+      unit: 'Sq. Ft.',
+      defaultArea: 120,
+      rates: {
+        '10mm': 320,
+        '12mm': 380,
+        'acoustic-double': 650,
+        'fluted': 480
+      },
+      features: [
+        '10mm / 12mm Certified Toughened Safety Glass',
+        'Slim Heavy-Duty Aluminum Profile Frame',
+        'Sound Dampening Acoustic Seals (Up to 38 dB)',
+        'Free Millimeter Site Measurement in Hyderabad'
+      ]
+    },
+    shower: {
+      name: 'Frameless Luxury Shower Cubicle',
+      unit: 'Sq. Ft.',
+      defaultArea: 45,
+      rates: {
+        '10mm': 420,
+        '12mm': 510,
+        'acoustic-double': 580,
+        'fluted': 560
+      },
+      features: [
+        '10mm Toughened Glass with Water-Repellent Nano Coating',
+        'Solid SS 304 / Brass Rustproof Hinges & Handles',
+        'Anti-Leak Magnetic Floor & Wall Gaskets',
+        '10-Year Hardware Mechanism Warranty'
+      ]
+    },
+    railing: {
+      name: '12mm Toughened Balcony Glass Railing',
+      unit: 'Rft (Running Feet)',
+      defaultArea: 35,
+      rates: {
+        '10mm': 1250,
+        '12mm': 1650,
+        'acoustic-double': 2400,
+        'fluted': 1950
+      },
+      features: [
+        '12mm Impact-Resistant Toughened / Laminated Glass',
+        'SS 316 Grade Solid Heavy Base Spigots / Channel',
+        'High-Rise Wind Load Certified Architecture',
+        'Seamless Handrail Option (Slotted SS / Minimal)'
+      ]
+    },
+    door: {
+      name: 'Sliding / Pivot Architectural Glass Door',
+      unit: 'Sq. Ft.',
+      defaultArea: 55,
+      rates: {
+        '10mm': 390,
+        '12mm': 460,
+        'acoustic-double': 720,
+        'fluted': 540
+      },
+      features: [
+        'Soft-Close Synchronized Hydraulic Dampers',
+        'Top-Hung Heavy Duty Track (Zero Bottom Floor Rail)',
+        'Architectural Minimal Profile with Designer Handles',
+        'Master Technician Precision Installation'
+      ]
+    },
+    glass: {
+      name: 'Custom Toughened Safety Glass (Cut to Size)',
+      unit: 'Sq. Ft.',
+      defaultArea: 80,
+      rates: {
+        '10mm': 220,
+        '12mm': 290,
+        'acoustic-double': 480,
+        'fluted': 380
+      },
+      features: [
+        'Direct Hyderabad Workshop Fabrication',
+        'Edge Polishing, Beveling, CNC Hole Cutting',
+        'Fast Delivery & Installation in Hyderabad',
+        '100% AIS & Saint-Gobain Certified Glass'
+      ]
+    }
+  };
+
+  function updateCalculator() {
+    const data = CALC_DATA[calcState.type];
+    if (!data) return;
+
+    const rate = data.rates[calcState.thickness] || data.rates['10mm'];
+    const totalMin = Math.round(rate * calcState.area);
+    const totalMax = Math.round(totalMin * 1.15);
+
+    const priceDisplay = document.getElementById('calcEstimatedPrice');
+    const rateDisplay = document.getElementById('calcRatePerUnit');
+    const unitLabel = document.getElementById('calcUnitLabel');
+    const featuresList = document.getElementById('calcFeaturesList');
+    const waBtn = document.getElementById('calcWhatsAppBtn');
+
+    if (priceDisplay) {
+      priceDisplay.textContent = '₹' + totalMin.toLocaleString('en-IN') + ' - ₹' + totalMax.toLocaleString('en-IN');
+    }
+    if (rateDisplay) {
+      rateDisplay.textContent = '₹' + rate.toLocaleString('en-IN') + ' / ' + data.unit;
+    }
+    if (unitLabel) {
+      unitLabel.textContent = data.unit;
+    }
+    if (featuresList) {
+      featuresList.innerHTML = data.features.map(f => '<li><i class="bi bi-check-circle-fill"></i> ' + f + '</li>').join('');
+    }
+    if (waBtn) {
+      const waText = encodeURIComponent(
+        'Hi GlassStudio! I used your website price calculator for ' + data.name + '.\n' +
+        '• Dimension: ~' + calcState.area + ' ' + data.unit + '\n' +
+        '• Glass: ' + calcState.thickness + '\n' +
+        '• Estimated Budget: ₹' + totalMin.toLocaleString('en-IN') + ' - ₹' + totalMax.toLocaleString('en-IN') + '\n' +
+        'Please provide a final quotation and site measurement visit for my location in Hyderabad.'
+      );
+      waBtn.href = 'https://api.whatsapp.com/send?phone=+919266472817&text=' + waText;
+    }
+  }
+
+  // Bind type buttons
+  document.querySelectorAll('.calc-type-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.calc-type-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      calcState.type = btn.dataset.type;
+      const data = CALC_DATA[calcState.type];
+      const areaInput = document.getElementById('calcAreaInput');
+      if (areaInput && data) {
+        areaInput.value = data.defaultArea;
+        calcState.area = data.defaultArea;
+      }
+      updateCalculator();
+    });
+  });
+
+  // Bind thickness chips
+  document.querySelectorAll('.calc-chip-option[data-thickness]').forEach(chip => {
+    chip.addEventListener('click', () => {
+      document.querySelectorAll('.calc-chip-option[data-thickness]').forEach(c => c.classList.remove('active'));
+      chip.classList.add('active');
+      calcState.thickness = chip.dataset.thickness;
+      updateCalculator();
+    });
+  });
+
+  // Bind area input
+  const areaInput = document.getElementById('calcAreaInput');
+  if (areaInput) {
+    areaInput.addEventListener('input', (e) => {
+      const val = parseFloat(e.target.value) || 1;
+      calcState.area = Math.max(1, val);
+      updateCalculator();
+    });
+  }
+
+  // Initial trigger if elements exist
+  if (document.getElementById('calcEstimatedPrice')) {
+    updateCalculator();
+  }
 });
 
