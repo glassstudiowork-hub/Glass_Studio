@@ -166,7 +166,8 @@ document.addEventListener('DOMContentLoaded', () => {
   // 8. Auto-open Lead Modal on First Visit (after 4 seconds, optional or polite)
   const hasSeenModal = sessionStorage.getItem('glassstudio_modal_seen');
   const homeQuoteModal = document.getElementById('homeQuoteModal');
-  if (!hasSeenModal && homeQuoteModal && window.location.pathname.endsWith('index.html') || window.location.pathname === '/' || window.location.pathname.endsWith('/')) {
+  const isHomepage = window.location.pathname === '/' || window.location.pathname.endsWith('index.html');
+  if (!hasSeenModal && homeQuoteModal && isHomepage) {
     setTimeout(() => {
       // Check if user is still on page
       if (!sessionStorage.getItem('glassstudio_modal_seen')) {
