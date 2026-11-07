@@ -876,7 +876,7 @@ h1, h2, h3, h4, h5, h6 {
    INTERNAL PAGES (ABOUT, CONTACT, PRODUCTS)
    ========================================== */
 .page-hero-header {
-  background: linear-gradient(rgba(23, 34, 44, 0.72), rgba(23, 34, 44, 0.85)), url('https://grayapi.grayzo.in/AdminArea/code/image/1758964228.webp?w=1200') center center no-repeat;
+  background: linear-gradient(rgba(23, 34, 44, 0.72), rgba(23, 34, 44, 0.85)), url('./assets/slider/1757661086.webp') center center no-repeat;
   background-size: cover;
   padding: 90px 0 70px;
   text-align: center;
