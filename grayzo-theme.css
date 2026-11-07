@@ -1869,5 +1869,125 @@ h1, h2, h3, h4, h5, h6 {
   }
 }
 
+/* ===== FORM OPTIMIZATION FOR MOBILE ===== */
+
+.quaryFormSubmit .form-control {
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 14px 16px;
+  font-size: 16px;
+  height: 48px;
+  transition: all 0.3s ease;
+  font-family: inherit;
+}
+
+.quaryFormSubmit .form-control:focus {
+  border-color: #276b91;
+  box-shadow: 0 0 0 3px rgba(39, 107, 145, 0.1);
+  outline: none;
+}
+
+.quaryFormSubmit .form-control::placeholder {
+  color: #999;
+  font-size: 15px;
+}
+
+.quaryFormSubmit textarea.form-control {
+  min-height: 120px;
+  resize: vertical;
+}
+
+/* Mobile form field optimization */
+@media (max-width: 768px) {
+  .quaryFormSubmit .form-control {
+    font-size: 16px;
+    padding: 16px 14px;
+    height: 52px;
+  }
+
+  .quaryFormSubmit .form-control:focus {
+    font-size: 16px;
+  }
+
+  .quaryFormSubmit textarea.form-control {
+    min-height: 140px;
+    font-size: 16px;
+  }
+
+  .quaryFormSubmit .row {
+    row-gap: 0.75rem !important;
+  }
+}
+
+/* Dropdown styling for forms */
+.popup_dropdown_main .btn {
+  background-color: #f5f5f5 !important;
+  border: 2px solid #e0e0e0 !important;
+  color: #333 !important;
+  font-size: 15px;
+  padding: 14px 16px !important;
+  min-height: 48px;
+  display: flex;
+  align-items: center;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.popup_dropdown_main .btn:hover {
+  border-color: #276b91 !important;
+  background-color: #f9f9f9 !important;
+}
+
+.popup_dropdown_main .dropdown-menu {
+  border: 2px solid #e0e0e0 !important;
+  box-shadow: 0 8px 16px rgba(0,0,0,0.1) !important;
+  border-radius: 8px !important;
+  max-height: 280px;
+  overflow-y: auto;
+}
+
+.popup_dropdown_main .form-check {
+  padding: 8px 8px;
+  cursor: pointer;
+}
+
+.popup_dropdown_main .form-check:hover {
+  background-color: #f5f5f5;
+  border-radius: 6px;
+}
+
+.popup_dropdown_main .form-check-input {
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+  border: 2px solid #ccc;
+  border-radius: 4px;
+}
+
+.popup_dropdown_main .form-check-input:checked {
+  background-color: #276b91;
+  border-color: #276b91;
+}
+
+/* Quote form submit button */
+.quaryFormSubmit .all_btn {
+  height: 52px;
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.quaryFormSubmit .all_btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(247, 127, 0, 0.4) !important;
+}
+
+.quaryFormSubmit .all_btn:active {
+  transform: translateY(0);
+}
+
 
 
