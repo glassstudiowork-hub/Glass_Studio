@@ -76,106 +76,325 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // 5. Quote Inquiry Form Submission
+  // 5. Form → Email delivery (FormSubmit.co, free, no backend needed)
+  //    Every enquiry is emailed to the address below.
+  //    FIRST-TIME SETUP: the very first submission triggers an "Activate Form"
+  //    email from FormSubmit to this inbox; click the activation link once.
+  const LEAD_EMAIL = 'glassstudiowork@gmail.com';
+  const FORM_ENDPOINT = 'https://formsubmit.co/ajax/' + LEAD_EMAIL;
+
+  async function sendFormToEmail(form, subject) {
+    const data = Object.fromEntries(new FormData(form).entries());
+    // Honeypot: bots fill hidden fields, humans don't
+    if (data._honey) return true;
+    delete data._honey;
+
+    const payload = Object.assign({}, data, {
+      _subject: subject + (data.name ? ' - ' + data.name : ''),
+      _template: 'table',
+      _replyto: data.email || '',
+      page: window.location.href,
+      submitted_at: new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' })
+    });
+
+    const res = await fetch(FORM_ENDPOINT, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+    const json = await res.json().catch(() => ({}));
+    return res.ok && String(json.success) === 'true';
+  }
+
+  // Adds a hidden anti-spam honeypot field to a form
+  function addHoneypot(form) {
+    if (form.querySelector('[name="_honey"]')) return;
+    const hp = document.createElement('input');
+    hp.type = 'text';
+    hp.name = '_honey';
+    hp.tabIndex = -1;
+    hp.autocomplete = 'off';
+    hp.setAttribute('aria-hidden', 'true');
+    hp.style.cssText = 'position:absolute;left:-9999px;width:1px;height:1px;opacity:0;';
+    form.appendChild(hp);
+  }
+
+  function setBtnText(btn, text) {
+    if (btn.tagName === 'INPUT') btn.value = text; else btn.textContent = text;
+  }
+
+  // Quote Inquiry Form (popup)
   const quoteForm = document.getElementById('quoteForm');
   const quoteSuccessAlert = document.getElementById('quoteSuccessAlert');
   const quoteErrorAlert = document.getElementById('quoteErrorAlert');
 
   if (quoteForm) {
-    quoteForm.addEventListener('submit', (e) => {
+    addHoneypot(quoteForm);
+    quoteForm.addEventListener('submit', async (e) => {
       e.preventDefault();
       const submitBtn = quoteForm.querySelector('input[type="submit"], button[type="submit"]');
       const originalText = submitBtn.value || submitBtn.textContent;
       submitBtn.disabled = true;
-      submitBtn.value = 'Submitting...';
+      setBtnText(submitBtn, 'Submitting...');
+      if (quoteSuccessAlert) quoteSuccessAlert.classList.add('d-none');
+      if (quoteErrorAlert) quoteErrorAlert.classList.add('d-none');
 
-      // Simulate API submit
-      setTimeout(() => {
-        submitBtn.disabled = false;
-        submitBtn.value = originalText;
+      let ok = false;
+      try { ok = await sendFormToEmail(quoteForm, 'New Quote Request - GlassStudio Website'); } catch { ok = false; }
 
+      submitBtn.disabled = false;
+      setBtnText(submitBtn, originalText);
+
+      if (ok) {
         if (quoteSuccessAlert) {
           quoteSuccessAlert.classList.remove('d-none');
           quoteSuccessAlert.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
         }
-        if (quoteErrorAlert) {
-          quoteErrorAlert.classList.add('d-none');
-        }
-
-        // Reset fields
         quoteForm.reset();
+        quoteForm.querySelectorAll('input[type="hidden"]').forEach(h => { h.value = ''; });
         const catBtn = document.getElementById('categoryDropdownBtn');
         const intBtn = document.getElementById('interestDropdownBtn');
         if (catBtn) catBtn.textContent = 'Select Category';
         if (intBtn) intBtn.textContent = 'Select Interest';
-      }, 700);
+      } else if (quoteErrorAlert) {
+        quoteErrorAlert.classList.remove('d-none');
+        quoteErrorAlert.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }
     });
   }
 
-  // 6. Contact Page Form Submission (if present)
+  // 6. Contact Page Form (if present)
   const contactPageForm = document.getElementById('contactPageForm');
   const contactSuccessAlert = document.getElementById('contactSuccessAlert');
+  const contactErrorAlert = document.getElementById('contactErrorAlert');
   if (contactPageForm) {
-    contactPageForm.addEventListener('submit', (e) => {
+    addHoneypot(contactPageForm);
+    contactPageForm.addEventListener('submit', async (e) => {
       e.preventDefault();
       const submitBtn = contactPageForm.querySelector('button[type="submit"]');
       submitBtn.disabled = true;
       submitBtn.textContent = 'Sending Message...';
+      if (contactSuccessAlert) contactSuccessAlert.classList.add('d-none');
+      if (contactErrorAlert) contactErrorAlert.classList.add('d-none');
 
-      setTimeout(() => {
-        submitBtn.disabled = false;
-        submitBtn.textContent = 'Send Message';
-        if (contactSuccessAlert) {
-          contactSuccessAlert.classList.remove('d-none');
-        }
+      let ok = false;
+      try { ok = await sendFormToEmail(contactPageForm, 'New Contact Enquiry - GlassStudio Website'); } catch { ok = false; }
+
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Send Message';
+      if (ok) {
+        if (contactSuccessAlert) contactSuccessAlert.classList.remove('d-none');
         contactPageForm.reset();
-      }, 700);
+      } else if (contactErrorAlert) {
+        contactErrorAlert.classList.remove('d-none');
+      }
     });
   }
 
   // 7. Product Detail Quick Modal Triggers
+  // Detailed info per product (keys match the titles used in the showcase grid)
+  const PRODUCT_INFO = {
+    'TELESCOPIC SLIDING': {
+      badge: 'Doors',
+      desc: 'Telescopic sliding doors use two to four glass panels that move together and stack neatly to one side, giving you a much wider opening than a normal slider. A slim aluminium frame keeps the look light and modern.',
+      specs: ['2, 3 or 4 synchronised sliding panels', 'Slim aluminium frame in black, champagne or bronze', 'Toughened clear, tinted, frosted or fluted glass', 'Smooth soft-close rollers on a low-profile track'],
+      ideal: 'Kitchens, living-dining dividers, balconies, study rooms'
+    },
+    'GLASS RAILING': {
+      badge: 'Railings',
+      desc: 'Frameless glass railings give balconies, terraces and staircases an uninterrupted view while staying safe. Glass panels are fixed in an aluminium base channel or on stainless-steel spigots, with an optional top handrail.',
+      specs: ['12mm toughened or 13.52mm toughened-laminated glass', 'Aluminium U-channel or SS 304/316 spigot fixing', 'Optional SS or aluminium top handrail', 'Custom heights to suit site and safety needs'],
+      ideal: 'Balconies, terraces, staircases, mezzanines, pool decks'
+    },
+    'OFFICE PARTITION': {
+      badge: 'Partitions',
+      desc: 'Glass office partitions create cabins, meeting rooms and workstations without blocking natural light. Choose frameless or slim-frame systems, with frosted film or acoustic glass where privacy matters.',
+      specs: ['10mm or 12mm toughened glass', 'Frameless or slim aluminium frame systems', 'Frosted, printed or branded privacy films', 'Single or double-glazed acoustic options'],
+      ideal: 'Manager cabins, conference rooms, reception areas, co-working spaces'
+    },
+    'DOOR AND PARTITION': {
+      badge: 'Doors',
+      desc: 'Slim-profile sliding doors paired with fixed glass panels divide a space cleanly while keeping it open and bright. The narrow black frame lines give a sharp, architectural look.',
+      specs: ['Slim aluminium profiles in matte black and other finishes', 'Clear, tinted or fluted toughened glass', 'Top-hung or bottom-track sliding options', 'Fixed side panels made to your opening'],
+      ideal: 'Living room dividers, home offices, office receptions, walk-in closets'
+    },
+    'WARDROBE SLIDING': {
+      badge: 'Wardrobes',
+      desc: 'Glass wardrobe shutters turn storage into a design feature. Choose lacquered colours, tinted glass, mirrors or custom printed designs, mounted in slim aluminium frames with smooth sliding gear.',
+      specs: ['Lacquered, tinted, mirror, fluted or printed glass', 'Slim aluminium frame and handle profiles', 'Soft-close sliding mechanism', 'Optional LED profile lighting'],
+      ideal: 'Bedrooms, walk-in wardrobes, TV units, storage walls'
+    },
+    'BEND GLASS': {
+      badge: 'Partitions',
+      desc: 'Bent (curved) glass is heated and formed to a set radius, then toughened or laminated for strength. It lets partitions, corners and railings follow curves for a softer, premium look.',
+      specs: ['Curved to your required radius', 'Toughened or laminated for safety', 'Clear, tinted or frosted finishes', 'Matching curved profiles and fittings'],
+      ideal: 'Rounded cabins, office corridors, showrooms, curved stair railings'
+    },
+    'ALUMINIUM SYSTEM WINDOW': {
+      badge: 'Windows',
+      desc: 'Aluminium system windows and sliding doors offer large glass areas with very slim frames. Multi-point locks and good seals keep out dust and rain, and double-glazed (DGU) glass improves heat and noise insulation.',
+      specs: ['Slim, strong aluminium profiles', 'Sliding, lift-and-slide, casement or fixed', 'Single glass or DGU (double-glazed) units', 'Powder-coated or anodised finishes'],
+      ideal: 'Villas, balconies, living rooms, garden-facing walls'
+    },
+    'ALUMINIUM PARTITION': {
+      badge: 'Partitions',
+      desc: 'Grid-style aluminium partitions with glass give an industrial "black frame" look that is very popular in modern homes, cafés and offices. Doors can be swing or sliding.',
+      specs: ['Black or custom powder-coated aluminium grid', 'Clear, fluted, frosted or tinted glass', 'Swing or sliding door options', 'Made to exact floor-to-ceiling sizes'],
+      ideal: 'Kitchen-dining dividers, home offices, cafés, studio apartments'
+    },
+    'POOJA DOOR': {
+      badge: 'Doors',
+      desc: 'Glass pooja doors keep your mandir visible and light-filled while adding privacy and a premium finish. Fluted, frosted or etched glass pairs beautifully with champagne-gold or bronze frames.',
+      specs: ['Fluted, frosted, etched or tinted glass', 'Champagne gold, bronze or black aluminium frames', 'Swing or sliding, with optional arch top', 'Decorative handles and bells-friendly designs'],
+      ideal: 'Pooja rooms, mandir units, prayer corners'
+    },
+    'PROFILE': {
+      badge: 'Profiles',
+      desc: 'Aluminium glass profiles are the slim frames used to build glass shutters for wardrobes, kitchens, crockery units and partitions. They come with integrated handles and premium finishes.',
+      specs: ['Black, champagne, bronze, rose gold and gold finishes', 'Integrated or concealed handle options', 'Holds fluted, tinted, frosted or lacquered glass', 'For hinged and sliding shutters'],
+      ideal: 'Wardrobe shutters, kitchen cabinets, crockery units, TV units'
+    },
+    'OFFICE DOOR': {
+      badge: 'Doors',
+      desc: 'Frameless toughened glass doors give office entrances and cabins a clean, professional look. Hydraulic floor springs or patch hinges allow smooth, controlled opening, and frosted or etched designs add branding and privacy.',
+      specs: ['10mm or 12mm toughened glass', 'Patch fittings with hydraulic floor spring', 'D-handles, pull handles and floor locks', 'Frosted, etched or branded film designs'],
+      ideal: 'Office entrances, cabins, conference rooms, showrooms'
+    },
+    'UPVC WINDOWS': {
+      badge: 'Windows',
+      desc: 'UPVC windows are low-maintenance, weather-resistant and do not rust or need painting. Multi-chamber profiles and rubber gaskets seal out dust, rain and road noise.',
+      specs: ['Casement, sliding, tilt-and-turn or fixed', 'Multi-chamber, UV-stabilised UPVC profiles', 'Single glass or DGU for better insulation', 'Optional mosquito mesh and grills'],
+      ideal: 'Apartments, villas, road-facing bedrooms, offices'
+    },
+    'SHOWER CUBICLE': {
+      badge: 'Bathrooms',
+      desc: 'Frameless shower cubicles keep the bathroom dry and open-looking. Toughened glass with water-resistant seals and quality hinges or sliding rollers is made to fit your exact bathroom layout.',
+      specs: ['8mm or 10mm toughened glass', 'Hinged, sliding or fixed walk-in panels', 'Magnetic and water-deflector seals', 'Chrome, matte black, gold or brushed hardware'],
+      ideal: 'Master bathrooms, villas, hotels, service apartments'
+    },
+    'DECORATIVE MIRROR': {
+      badge: 'Mirrors',
+      desc: 'Decorative mirrors and bevelled mirror panels make rooms feel larger and brighter. We cut, bevel and install mirrors to your design.',
+      specs: ['Bevelled, tinted or antique mirror options', 'Custom shapes and diamond patterns', 'Polished edges and safe fixing', 'LED-backlit mirrors available'],
+      ideal: 'Living rooms, dining walls, bathrooms, gyms, salons'
+    }
+  };
+
   const detailModalElem = document.getElementById('productDetailModal');
   let detailModal = null;
   if (detailModalElem) {
-    detailModal = new bootstrap.Modal(detailModalElem);
+    detailModal = bootstrap.Modal.getOrCreateInstance(detailModalElem);
   }
+  let currentProductTitle = '';
 
-  window.openProductDetail = function(title, imageSrc, desc) {
+  window.openProductDetail = function(title, imageSrc, descOrKey) {
     const titleElem = document.getElementById('modalProductTitle');
     const imgElem = document.getElementById('modalProductImage');
     const descElem = document.getElementById('modalProductDesc');
-    const catInput = document.getElementById('quoteCategoryAuto');
+    const specsElem = document.getElementById('modalProductSpecs');
+    const idealElem = document.getElementById('modalProductIdeal');
+    const badgeElem = document.getElementById('modalProductBadge');
+    const waBtn = document.getElementById('modalWhatsAppBtn');
+
+    // Look up rich info by title, or by a product key passed as the 3rd argument
+    const info = PRODUCT_INFO[String(title).toUpperCase()] || PRODUCT_INFO[descOrKey] || null;
+    const plainDesc = (!info && descOrKey) ? descOrKey : null;
+    currentProductTitle = title;
 
     if (titleElem) titleElem.textContent = title;
-    if (imgElem) imgElem.src = imageSrc;
-    if (descElem) descElem.textContent = desc || `Premium custom-crafted ${title} manufactured to exact specifications by GlassStudio Hyderabad. Engineered with toughened safety glass and high-grade slim architectural fittings.`;
-    if (catInput) catInput.value = title;
+    if (imgElem) {
+      imgElem.src = imageSrc;
+      imgElem.alt = title + ' - GlassStudio Hyderabad';
+    }
+    if (descElem) {
+      descElem.textContent = info ? info.desc : (plainDesc || `Premium custom-crafted ${title} manufactured to exact specifications by GlassStudio Hyderabad. Engineered with toughened safety glass and high-grade slim architectural fittings.`);
+    }
+    if (badgeElem) badgeElem.textContent = info ? info.badge.toUpperCase() : 'GLASSSTUDIO LUXURY SERIES';
+    if (specsElem && info) {
+      specsElem.innerHTML = '';
+      info.specs.forEach(spec => {
+        const li = document.createElement('li');
+        li.innerHTML = '<i class="bi bi-check2-circle text-success me-2" aria-hidden="true"></i>';
+        li.appendChild(document.createTextNode(spec));
+        specsElem.appendChild(li);
+      });
+    }
+    if (idealElem) {
+      if (info && info.ideal) {
+        idealElem.querySelector('span').textContent = info.ideal;
+        idealElem.classList.remove('d-none');
+      } else {
+        idealElem.classList.add('d-none');
+      }
+    }
+    if (waBtn) {
+      waBtn.href = 'https://api.whatsapp.com/send?phone=+919266472817&text=' +
+        encodeURIComponent('Hi GlassStudio, I want details and a quote for: ' + title);
+    }
 
     if (detailModal) {
       detailModal.show();
     } else {
       // Fallback open quote modal
       const quoteModalElem = document.getElementById('homeQuoteModal');
-      if (quoteModalElem) {
-        const qm = new bootstrap.Modal(quoteModalElem);
-        qm.show();
-      }
+      if (quoteModalElem) bootstrap.Modal.getOrCreateInstance(quoteModalElem).show();
     }
   };
 
-  // 8. Auto-open Lead Modal on First Visit (after 4 seconds, optional or polite)
-  const hasSeenModal = sessionStorage.getItem('glassstudio_modal_seen');
-  const homeQuoteModal = document.getElementById('homeQuoteModal');
+  // "Enquire For This": close details, then open quote form pre-filled with the product
+  const enquireBtn = document.getElementById('modalEnquireBtn');
+  const quoteModalElem = document.getElementById('homeQuoteModal');
+  if (enquireBtn && detailModalElem && quoteModalElem) {
+    enquireBtn.addEventListener('click', () => {
+      detailModalElem.addEventListener('hidden.bs.modal', () => {
+        const msg = quoteModalElem.querySelector('textarea[name="message"]');
+        if (msg && currentProductTitle && !msg.value) {
+          msg.value = 'I am interested in: ' + currentProductTitle + '. ';
+        }
+        bootstrap.Modal.getOrCreateInstance(quoteModalElem).show();
+      }, { once: true });
+      detailModal.hide();
+    });
+  }
+
+  // Whole showcase card is clickable (not just the hover button)
+  document.querySelectorAll('.showcase-card[data-product]').forEach(card => {
+    card.addEventListener('click', (e) => {
+      if (e.target.closest('button, a')) return; // the button handles itself
+      window.openProductDetail(card.dataset.product, card.dataset.img);
+    });
+  });
+
+  // Showcase category filters
+  const filterBtns = document.querySelectorAll('.showcase-filter');
+  const collectionItems = document.querySelectorAll('.collection-item');
+  filterBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const filter = btn.dataset.filter;
+      filterBtns.forEach(b => {
+        b.classList.toggle('active', b === btn);
+        b.setAttribute('aria-pressed', b === btn ? 'true' : 'false');
+      });
+      collectionItems.forEach(item => {
+        const show = filter === 'all' || item.dataset.category === filter;
+        item.classList.toggle('d-none', !show);
+      });
+    });
+  });
+
+  // 8. Auto-open Lead Modal on First Visit (desktop only: full-screen popups
+  //    on phones hurt UX and Google's mobile ranking)
+  let hasSeenModal = null;
+  try { hasSeenModal = sessionStorage.getItem('glassstudio_modal_seen'); } catch { hasSeenModal = 'true'; }
   const isHomepage = window.location.pathname === '/' || window.location.pathname.endsWith('index.html');
-  if (!hasSeenModal && homeQuoteModal && isHomepage) {
+  const isDesktop = window.matchMedia('(min-width: 992px)').matches;
+  if (!hasSeenModal && quoteModalElem && isHomepage && isDesktop) {
     setTimeout(() => {
-      // Check if user is still on page
-      if (!sessionStorage.getItem('glassstudio_modal_seen')) {
-        const modal = new bootstrap.Modal(homeQuoteModal);
-        modal.show();
-        sessionStorage.setItem('glassstudio_modal_seen', 'true');
-      }
-    }, 4500);
+      // Don't interrupt if the visitor already has another modal open
+      if (document.querySelector('.modal.show')) return;
+      bootstrap.Modal.getOrCreateInstance(quoteModalElem).show();
+      try { sessionStorage.setItem('glassstudio_modal_seen', 'true'); } catch { /* ignore */ }
+    }, 6000);
   }
 
   // 9. LIVE INSTANT SEARCH ENGINE (Doors, Partitions, Glass Work, Shower, Railings, Locations)
@@ -293,6 +512,60 @@ document.addEventListener('DOMContentLoaded', () => {
       desc: "Energy-efficient acoustic UPVC and thermally broken aluminium window systems."
     },
     {
+      title: "Telescopic Sliding Doors",
+      keywords: "telescopic sliding door teliscope multi panel kitchen door synchronised slim profile",
+      category: "Doors",
+      url: "#collection-grid",
+      product: "TELESCOPIC SLIDING",
+      desc: "Multi-panel synchronised sliding doors that stack to one side for a wide opening."
+    },
+    {
+      title: "Pooja Room Glass Doors",
+      keywords: "pooja door puja door mandir door temple door fluted glass gold frame arch",
+      category: "Doors",
+      url: "#collection-grid",
+      product: "POOJA DOOR",
+      desc: "Fluted or frosted glass mandir doors with champagne-gold or bronze frames."
+    },
+    {
+      title: "Bent / Curved Glass",
+      keywords: "bend glass bent glass curved glass round partition curved railing radius",
+      category: "Glass Work",
+      url: "#collection-grid",
+      product: "BEND GLASS",
+      desc: "Heat-formed curved glass for rounded partitions, corners and railings."
+    },
+    {
+      title: "Aluminium Glass Profiles",
+      keywords: "profile aluminium profile glass shutter handle champagne gold black bronze kitchen wardrobe",
+      category: "Wardrobes",
+      url: "#collection-grid",
+      product: "PROFILE",
+      desc: "Slim aluminium profiles for glass wardrobe, kitchen and crockery shutters."
+    },
+    {
+      title: "Aluminium System Windows",
+      keywords: "aluminium system window window sliding window lift and slide slim window dgu",
+      category: "Windows",
+      url: "#collection-grid",
+      product: "ALUMINIUM SYSTEM WINDOW",
+      desc: "Slim-sightline aluminium sliding windows and doors with DGU options."
+    },
+    {
+      title: "Glass Types Guide",
+      keywords: "glass guide types of glass laminated frosted fluted tinted lacquered dgu reflective which glass",
+      category: "Guide",
+      url: "#glass-guide",
+      desc: "Compare toughened, laminated, frosted, fluted, tinted, lacquered, DGU and curved glass."
+    },
+    {
+      title: "Glass Thickness Guide",
+      keywords: "thickness mm 5mm 8mm 10mm 12mm which thickness glass size guide",
+      category: "Guide",
+      url: "#thickness-guide",
+      desc: "Recommended glass type and thickness for windows, showers, partitions, doors and railings."
+    },
+    {
       title: "Glass Work in Gachibowli",
       keywords: "gachibowli dlf cybercity financial district nanakramguda telecom nagar waverock office partition gachibowli",
       category: "Locations",
@@ -346,11 +619,13 @@ document.addEventListener('DOMContentLoaded', () => {
              item.desc.toLowerCase().includes(q);
     });
 
+    const safeQuery = escapeHtml(query);
+
     if (matches.length === 0) {
       searchResults.innerHTML = `
         <div class="text-center py-4">
           <i class="bi bi-search fs-2 text-muted mb-2 d-block"></i>
-          <h6 class="fw-bold mb-1">No exact match found for "${query}"</h6>
+          <h6 class="fw-bold mb-1">No exact match found for "${safeQuery}"</h6>
           <p class="text-muted small mb-3">Don't worry! We fabricate all custom glass work, partitions, and doors in Hyderabad.</p>
           <div class="d-flex justify-content-center gap-2 flex-wrap">
             <a href="tel:+919266472817" class="btn btn-sm btn-dark"><i class="bi bi-telephone-fill me-1"></i> Call +91 92664 72817</a>
@@ -361,21 +636,24 @@ document.addEventListener('DOMContentLoaded', () => {
       return;
     }
 
-    let html = `<div class="text-muted small mb-2 fw-semibold">Found ${matches.length} solutions for "${query}":</div>`;
+    let html = `<div class="text-muted small mb-2 fw-semibold">Found ${matches.length} solutions for "${safeQuery}":</div>`;
     matches.forEach(item => {
       const waLink = `https://api.whatsapp.com/send?phone=+919266472817&text=Hi%20GlassStudio,%20I%20need%20details%20about%20${encodeURIComponent(item.title)}`;
+      const viewBtn = item.product
+        ? `<button type="button" class="btn btn-sm btn-outline-dark px-3 py-1" data-search-product="${escapeHtml(item.product)}">View Details</button>`
+        : `<a href="${item.url}" class="btn btn-sm btn-outline-dark px-3 py-1" data-search-link>${item.url.startsWith('#') ? 'Go to Section' : 'View Page'}</a>`;
       html += `
         <div class="search-result-item d-flex align-items-center justify-content-between flex-wrap gap-2">
           <div>
             <div class="d-flex align-items-center gap-2 mb-1">
               <span class="search-result-badge">${item.category}</span>
-              <a href="${item.url}" class="fw-bold text-dark text-decoration-none">${item.title}</a>
+              <a href="${item.url}" class="fw-bold text-dark text-decoration-none" data-search-link>${item.title}</a>
             </div>
             <p class="text-muted small mb-0">${item.desc}</p>
           </div>
           <div class="d-flex align-items-center gap-2">
-            <a href="${item.url}" class="btn btn-sm btn-outline-dark px-3 py-1">View Page</a>
-            <a href="${waLink}" target="_blank" class="btn btn-sm btn-success px-3 py-1"><i class="bi bi-whatsapp"></i></a>
+            ${viewBtn}
+            <a href="${waLink}" target="_blank" rel="noreferrer" class="btn btn-sm btn-success px-3 py-1" aria-label="WhatsApp about ${escapeHtml(item.title)}"><i class="bi bi-whatsapp"></i></a>
           </div>
         </div>
       `;
@@ -383,6 +661,38 @@ document.addEventListener('DOMContentLoaded', () => {
 
     searchResults.innerHTML = html;
   };
+
+  function escapeHtml(str) {
+    return String(str).replace(/[&<>"']/g, ch => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[ch]));
+  }
+
+  // Search result actions: open product details, or close the modal before jumping to an on-page section
+  if (searchResults) {
+    const searchModalElem = document.getElementById('siteSearchModal');
+    searchResults.addEventListener('click', (e) => {
+      const productBtn = e.target.closest('[data-search-product]');
+      const link = e.target.closest('a[data-search-link]');
+      if (productBtn) {
+        const key = productBtn.dataset.searchProduct;
+        const card = document.querySelector(`.showcase-card[data-product="${CSS.escape(key)}"]`);
+        if (!card) { window.location.href = '/#collection-grid'; return; }
+        const img = card.dataset.img;
+        if (searchModalElem) {
+          searchModalElem.addEventListener('hidden.bs.modal', () => window.openProductDetail(key, img), { once: true });
+          bootstrap.Modal.getOrCreateInstance(searchModalElem).hide();
+        } else {
+          window.openProductDetail(key, img);
+        }
+      } else if (link && link.getAttribute('href').startsWith('#') && searchModalElem) {
+        e.preventDefault();
+        const target = document.querySelector(link.getAttribute('href'));
+        // Section lives on the home page: go there instead
+        if (!target) { window.location.href = '/' + link.getAttribute('href'); return; }
+        searchModalElem.addEventListener('hidden.bs.modal', () => target.scrollIntoView({ behavior: 'smooth' }), { once: true });
+        bootstrap.Modal.getOrCreateInstance(searchModalElem).hide();
+      }
+    });
+  }
 
   if (searchInput) {
     searchInput.addEventListener('input', (e) => {
