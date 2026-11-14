@@ -76,12 +76,11 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // 5. Form → Email delivery (FormSubmit.co, free, no backend needed)
-  //    Every enquiry is emailed to the address below.
-  //    FIRST-TIME SETUP: the very first submission triggers an "Activate Form"
-  //    email from FormSubmit to this inbox; click the activation link once.
-  const LEAD_EMAIL = 'glassstudiowork@gmail.com';
-  const FORM_ENDPOINT = 'https://formsubmit.co/ajax/' + LEAD_EMAIL;
+  // 5. Form → Email delivery (Web3Forms, free, no backend needed)
+  //    Every enquiry is emailed to the inbox linked to this access key
+  //    (glassstudiowork@gmail.com). The key is public by design.
+  const WEB3FORMS_ACCESS_KEY = 'b9360055-d504-4250-99d0-17868b2c274d';
+  const FORM_ENDPOINT = 'https://api.web3forms.com/submit';
 
   async function sendFormToEmail(form, subject) {
     const data = Object.fromEntries(new FormData(form).entries());
@@ -90,9 +89,10 @@ document.addEventListener('DOMContentLoaded', () => {
     delete data._honey;
 
     const payload = Object.assign({}, data, {
-      _subject: subject + (data.name ? ' - ' + data.name : ''),
-      _template: 'table',
-      _replyto: data.email || '',
+      access_key: WEB3FORMS_ACCESS_KEY,
+      subject: subject + (data.name ? ' - ' + data.name : ''),
+      from_name: 'GlassStudio Website',
+      replyto: data.email || '',
       page: window.location.href,
       submitted_at: new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' })
     });
