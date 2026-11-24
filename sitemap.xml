@@ -27,6 +27,12 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://glassstudio.in/catalogue/</loc>
+    <lastmod>2026-11-24</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://glassstudio.in/sitemap.html</loc>
     <lastmod>2026-09-22</lastmod>
     <changefreq>monthly</changefreq>
@@ -66,6 +72,37 @@
   </url>
   <url>
     <loc>https://glassstudio.in/glass-work-banjara-hills/</loc>
+    <lastmod>2026-11-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <url>
+    <loc>https://glassstudio.in/glass-work-manikonda/</loc>
+    <lastmod>2026-11-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://glassstudio.in/glass-work-madhapur/</loc>
+    <lastmod>2026-11-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://glassstudio.in/glass-work-kondapur/</loc>
+    <lastmod>2026-11-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://glassstudio.in/glass-work-jubilee-hills/</loc>
+    <lastmod>2026-11-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://glassstudio.in/glass-work-kokapet/</loc>
     <lastmod>2026-11-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>

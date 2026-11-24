@@ -30,6 +30,10 @@
     if (/wa\.me|whatsapp\.com/i.test(href)) type = 'whatsapp_click';
     else if (/^tel:/i.test(href)) type = 'call_click';
     else if (/^mailto:/i.test(href)) type = 'email_click';
+    else if (/\.pdf($|\?)/i.test(href)) {
+      gtag('event', 'catalogue_download', { page_path: location.pathname, transport_type: 'beacon' });
+      return;
+    }
     if (!type) return;
     gtag('event', type, {
       page_path: location.pathname,
